@@ -76,8 +76,48 @@ Inputting data:
 def welcome_api(name: str):
     return{'Welcome': name}
 
+# Lesson 3: Python Objects / JSON
+'''
+We will be using Pydantic as our data validation. Threfore when we create a new 
+class or object that is going to be consumed by a request method, our pydantic
+will be able to validate the data before manipulating any of the application.
 
+And yes, pydantic will be doing this all for us so we don't have to do it. 
 
+- We can just focus more on code
+- Allow FastAPI and pydantic to do everything else behind scenes
+'''
+#This is how to import
+from pydantic import BaseModel, Field #Field is to set rules for the input, being the field
+
+#For using ids, or more so using unique identifiers, we do anoother type of importation:
+from uuid import UUID
+
+class Book(BaseModel):
+    id: UUID
+    title: str = Field(min_length=1, max_length=30) #Pydantic will arppove this validation
+    description: str = Field(max_length=100)
+    rating: int = Field(gt=-1, lt=6)
+
+'''
+Now to apply this example, we need to create a list of objects.
+
+In real-world application, this list will be our database, and for every api, 
+we'll be calling our database and doing certain actions upon it, being the 
+CRUD. 
+
+'''
+
+BookDataBase = []
+
+@app.post("/book")
+def create_book(book: Book):
+    BookDataBase.append(book)
+    return book
+
+@app.get("/book")
+def book_list():
+    return BookDataBase
 
 
 
