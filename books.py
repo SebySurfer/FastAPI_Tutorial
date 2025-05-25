@@ -1,5 +1,5 @@
 
-#Lesson 1: Basics of FastAPI and creating apis
+#Lesson 1: Basics of FastAPI and creating apis *************************************************************************
 '''
 Important Notes:
 
@@ -48,7 +48,7 @@ def read_api():
     return {"welcome": "Seby"}
 
 
-#Lesson 2: Path Parameter
+#Lesson 2: Path Parameter **********************************************************************************************
 '''
 A path parameter is just a way for us to be able to manipulate code 
 of any request method by passing a specific data beforehand. 
@@ -76,7 +76,7 @@ Inputting data:
 def welcome_api(name: str):
     return{'Welcome': name}
 
-# Lesson 3: Python Objects / JSON
+# Lesson 3: Python Objects / JSON **************************************************************************************
 '''
 We will be using Pydantic as our data validation. Threfore when we create a new 
 class or object that is going to be consumed by a request method, our pydantic
@@ -119,5 +119,41 @@ def create_book(book: Book):
 def book_list():
     return BookDataBase
 
+# Lesson 4: HTTP Exceptions ********************************************************************************************
+'''
+
+We also need to catch errors that we create using business logic thay maybe 
+pydantic wont catch. 
+
+'''
+
+#How to import:
+from fastapi import HTTPException
+
+@app.put("/{book_id}")
+def update_book(book_id: UUID, book: Book):
+    counter = 0
+    for x in BookDataBase:
+        counter+=1
+        if x.id == book_id:
+            BookDataBase[counter - 1] = book
+            return BookDataBase[counter - 1 ]
+        # so if in our list there is no uuid to be found, we want to return a
+        # status code that describes that it is not found
+    raise  HTTPException (
+        status_code=404, detail=f"ID {book_id} : Does not exist"
+    )
+
+@app.delete("/{book_id}")
+def delete_book(book_id: UUID):
+    counter = 0
+    for x in BookDataBase:
+        counter+=1
+        if x.id == book_id:
+            del BookDataBase[counter - 1]
+            return f"Removed {book_id}"
+    raise  HTTPException (
+        status_code=404, detail=f"ID {book_id} : Does not exist"
+    )
 
 
