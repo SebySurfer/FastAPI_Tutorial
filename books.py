@@ -119,6 +119,27 @@ def create_book(book: Book):
 def book_list():
     return BookDataBase
 
+'''
+Before we continue, you might of realized that every time we create an object only using UUID, its not 
+different for every instance. This is because UUID is a class that only HOLDS the unique identifier, 
+but we need to provide a function to make unique ids, being the uuid4 (version 4). 
+
+There are 5 different versions, some that were intended to be more upgraded than others, to create no determinism, or 
+maintain determinism. Overall:
+
+- v4 = Undeterministic randomness, extremely low chance of collisions, and always generates a different ID even if the 
+same name is given 
+- v5 =  Deterministic repetitiveness, generating the same ID only for the same name, and useful for caching or indexing  
+
+How to use it:
+UUID = Field(default_factory=uuid4)
+
+'''
+#How to import:
+from uuid import uuid4
+
+
+
 # Lesson 4: HTTP Exceptions ********************************************************************************************
 '''
 
@@ -155,5 +176,16 @@ def delete_book(book_id: UUID):
     raise  HTTPException (
         status_code=404, detail=f"ID {book_id} : Does not exist"
     )
+
+
+#Things to add:
+'''
+- the use of the response model 
+- the arrow for the expected return type 
+
+
+'''
+
+
 
 
