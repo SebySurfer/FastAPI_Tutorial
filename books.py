@@ -177,7 +177,7 @@ def delete_book(book_id: UUID):
         status_code=404, detail=f"ID {book_id} : Does not exist"
     )
 
-#Lesson 5: Response Models
+#Lesson 5: Response Models *********************************************************************************************
 '''
 Response models are exactly the same thing as normal models/classes from BaseModels, please, dont injure yourself by 
 trying to confuse yourself. The purpose of these kind of models is to adapt the oiriginal one to certain needs or criteria. 
@@ -232,10 +232,18 @@ Activity! Try removing the 'PublicUser' and see what happens
 '''
 
 
-#Things to add:
-'''
-- the arrow for the expected return type 
+#Lesson 6: Extra *******************************************************************************************************
 
+'''
+Using -> return_type:
+
+    def get_user() -> PublicUser:
+        ...
+
+This is a Python type hint that tells your editor, linters, and tools of python that this function should return a 
+PublicUser object, but its not validated through FastAPI. 
+
+Recommended approach: do NOT use the '->' return type, because it avoids completely pydantic incredible validation.
 
 '''
 
