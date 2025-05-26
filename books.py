@@ -177,10 +177,63 @@ def delete_book(book_id: UUID):
         status_code=404, detail=f"ID {book_id} : Does not exist"
     )
 
+#Lesson 5: Response Models
+'''
+Response models are exactly the same thing as normal models/classes from BaseModels, please, dont injure yourself by 
+trying to confuse yourself. The purpose of these kind of models is to adapt the oiriginal one to certain needs or criteria. 
+
+For example, if you have an internal logic were you keep passing all the data of the user for every type of action, 
+i won't think its very efficient when it comes to security, because you'll also be passing sensitive information, like 
+passwords, that isn't needed in what you're asking for.
+
+Or what if you you're asking for a GET request on a profile on a social platform, of course you wont be receiving its 
+password or current ip address. This is why we create "Response" Models, to adapt our models that we create to its 
+response scenario. Continuing in the example, we should create a "PublicUser" Model for the original model "User".
+
+The only thing we do different with Response Models, we integrate it after we create the path parameter
+
+    @app.REQUEST_TYPE("/PATH/{DATA}", response_model=RESPONSE_MODEL)
+
+'''
+
+#Setting the example:
+
+
+class User(BaseModel):
+    username: str
+    email: str
+    password: str # --> This criteria is sensitive information
+
+#RESPONSE MODEL:
+
+class PublicUser(BaseModel):
+    username: str
+    email: str
+
+#Created a predefined user
+UsersList = [User(username="john_doe", email="john@example.com", password="secret")]
+
+
+@app.get("/user/{username}", response_model=PublicUser) #Once the return statement is executed, FastAPI will model it to the PublicUser
+def get_user(name:str):
+    for x in UsersList:
+        if x.username == name:
+            return x  #It returns a full model that includes a password on its own before it gets filtered by the response model
+
+
+#See how PublicUser affects how the api returns the "user" that was just created
+@app.post("/user", response_model=PublicUser)
+def create_user(user: User):
+    UsersList.append(user)
+    return user
+
+'''
+Activity! Try removing the 'PublicUser' and see what happens
+'''
+
 
 #Things to add:
 '''
-- the use of the response model 
 - the arrow for the expected return type 
 
 
