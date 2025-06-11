@@ -53,7 +53,7 @@ def read_api():
 A path parameter is just a way for us to be able to manipulate code 
 of any request method by passing a specific data beforehand. 
 
-1. We can name path parameterns in any way possible
+1. We can name path parameters in any way possible
 2. We can have the same request type, only with different path parameters 
 3. We can have the same path parameters, only with different request type
 4. Names of the functions does NOT make any difference
@@ -143,7 +143,7 @@ from uuid import uuid4
 # Lesson 4: HTTP Exceptions ********************************************************************************************
 '''
 
-We also need to catch errors that we create using business logic thay maybe 
+We also need to catch errors that we create using business logic that maybe 
 pydantic wont catch. 
 
 '''
@@ -180,7 +180,7 @@ def delete_book(book_id: UUID):
 #Lesson 5: Response Models *********************************************************************************************
 '''
 Response models are exactly the same thing as normal models/classes from BaseModels, please, dont injure yourself by 
-trying to confuse yourself. The purpose of these kind of models is to adapt the oiriginal one to certain needs or criteria. 
+trying to confuse yourself. The purpose of these kind of models is to adapt the original one to certain needs or criteria. 
 
 For example, if you have an internal logic were you keep passing all the data of the user for every type of action, 
 i won't think its very efficient when it comes to security, because you'll also be passing sensitive information, like 
